@@ -1,0 +1,26 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @week_day.date %>
+</p>
+
+<p>
+  <strong>Meals:</strong><br>
+  <% @week_day.meals.each do |meal| %>
+    <%= meal.name %> | <%= link_to "remove", week_day_meal_path(week_day_meal_id: meal.week_day_meals.find_by(meal_id: meal).id) , method: :delete, data: { confirm: 'Are you sure?' } %> <br>
+  <% end %>
+  <%= link_to 'add meal', user_meals_path(week_day_id: @week_day), remote: true %>
+</p>
+
+<p>
+  <strong>Eaten:</strong>
+  <%= @week_day.eaten %>
+</p>
+
+<%= link_to 'Edit', edit_week_day_path(@week_day) %> |
+<%= link_to 'Back', week_days_path %>
+
+<div class="page-loader">
+
+</div>

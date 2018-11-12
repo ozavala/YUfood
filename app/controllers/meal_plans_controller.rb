@@ -4,7 +4,7 @@ class MealPlansController < ApplicationController
   # GET /meal_plans
   # GET /meal_plans.json
   def index
-    @meal_plans = MealPlan.all
+    @meal_plans = current_user.meal_plans
   end
 
   # GET /meal_plans/1
@@ -28,6 +28,7 @@ class MealPlansController < ApplicationController
 
     respond_to do |format|
       if @meal_plan.save
+        week_day_creation(@meal_plan)
         format.html { redirect_to @meal_plan, notice: 'Meal plan was successfully created.' }
         format.json { render :show, status: :created, location: @meal_plan }
       else
@@ -61,6 +62,10 @@ class MealPlansController < ApplicationController
     end
   end
 
+  def shopping_list
+    @meal_plan = MealPlan.finf(params[:meal_plan_id])
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_meal_plan
@@ -70,5 +75,15 @@ class MealPlansController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def meal_plan_params
       params.fetch(:meal_plan, {})
+      # params.require(:meal_plan).permit(:budget, :week_day_id, :user_id, :number_of_weeks, :start_date)
+    end
+
+    def week_day_creation(meal_plan)
+      total_days = meal_plan.number_of_weeks
+      date_holder = meal_plan.start_date
+      total_days.times do
+        WeekDay.create!(date: date_holder , eaten: false, meal_plan_id: meal_plan.id)
+        date_holder = date_holder + 1
+      end
     end
 end

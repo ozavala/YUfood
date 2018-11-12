@@ -1,0 +1,36 @@
+<h1><%= @meal.name %> <small><%= @meal.description %></small></h1>
+
+<%= link_to 'Edit', edit_meal_path(@meal) %> |
+<%= link_to 'Back', meals_path %> |
+
+<%= current_user.user_meals.find_by(meal_id: @meal.id).presence ?
+"already in your list" :
+link_to('Add to my list', user_meals_path(meal_id: @meal,
+  user_id: current_user),
+  method: "post")%>
+<hr>
+<table class="table table-striped table-bordered">
+  <tr>
+    <th>ingredients</th>
+    <th>amounts</th>
+    <th>Actions</th>
+  </tr>
+  <% @meal.ingredients.each do |ing| %>
+    <tr>
+      <td><%= ing.name %></td>
+      <td><%= ing.amount %> <%= ing.amount_type %></td>
+      <td>
+        <%= link_to "edit", edit_ingredient_path(ing, meal_id: @meal.id), remote: true %> |
+        <%= link_to "delete", ingredient_path(ing), method: :delete, data: {confirm: "Are you sure?"} %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+<p>
+  <strong>Ingredients:</strong><br>
+
+</p>
+<div class="form_loader">
+
+</div>
+<%= link_to "Add Ingredient", new_ingredient_path(meal_id: @meal.id), remote: true %>

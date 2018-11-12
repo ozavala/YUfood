@@ -1,0 +1,27 @@
+<%= form_with(model: shopping_list, local: true) do |form| %>
+  <% if shopping_list.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(shopping_list.errors.count, "error") %> prohibited this shopping_list from being saved:</h2>
+
+      <ul>
+      <% shopping_list.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    This will create a shopping list for the following meals <br>
+    <ul>
+      <% @meal_plan.meals.each do |meal| %>
+        <li><%= meal.name %></li>
+      <% end %>
+    </ul>
+    <%= form.hidden_field :meal_plan_id, value: @meal_plan.id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,37 @@
+<%= form_for @ingredient do |form| %>
+  <div class="row">
+    <div class="col-md-3">
+      <%= form.label :name %> <a href="" onclick="return false;" id="new_name">new ingredient?</a><br>
+      <%= form.select :name, options_for_select(Ingredient.where('name > ?', "").order('name ASC').collect {|x| [x.name ,x.name] }.uniq, {}), include_blank: true %>
+    </div>
+
+    <div class="col-md-3">
+      <%= form.label :amount %><br>
+      <%= form.text_field :amount %>
+    </div>
+
+    <div class="col-md-3">
+      <%= form.label :amount_type %> <a href="" onclick="return false;" id="new_type">new type?</a><br>
+      <%= form.select :amount_type, options_for_select(Ingredient.where('amount_type > ?', "").order('amount_type ASC').collect {|x| [x.amount_type, x.amount_type]}.uniq, {}), include_blank: true %>
+    </div>
+
+    <div class="col-md-2">
+      <%= form.hidden_field :meal_id, value: params[:meal_id] %>
+    </div>
+
+    <div class="col-md-1">
+      <br>
+      <%= form.submit %>
+    </div>
+  </div>
+<% end %>
+<script type="text/javascript">
+  $("#new_name").click(function(){
+    $("#ingredient_name").replaceWith('<input id="ingredient_name" name="ingredient[name]" type="text">');
+    $(this).hide();
+  })
+  $("#new_type").click(function(){
+    $("#ingredient_amount_type").replaceWith('<input id="ingredient_amount_type" name="ingredient[amount_type]" type="text">');
+    $(this).hide();
+  })
+</script>

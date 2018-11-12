@@ -1,0 +1,32 @@
+<%= form_with(model: week_day, local: true) do |form| %>
+  <% if week_day.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(week_day.errors.count, "error") %> prohibited this week_day from being saved:</h2>
+
+      <ul>
+      <% week_day.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :date %>
+    <%= form.date_select :date, id: :week_day_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :meal_id %>
+    <%= form.text_field :meal_id, id: :week_day_meal_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :eaten %>
+    <%= form.check_box :eaten, id: :week_day_eaten %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Meals</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @meals.each do |meal| %>
+      <tr>
+        <td><%= meal.name %></td>
+        <td><%= meal.description %></td>
+        <td><%= current_user.user_meals.find_by(meal_id: meal.id).presence ?
+        "already in your list" :
+         link_to('Add to my list', user_meals_path(meal_id: meal,
+                                                   user_id: current_user),
+                                                   method: "post")%></td>
+        <td><%= link_to 'Show', meal %></td>
+        <td><%= link_to 'Edit', edit_meal_path(meal) %></td>
+        <td><%= link_to 'Destroy', meal, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Meal', new_meal_path %>

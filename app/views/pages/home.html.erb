@@ -1,1 +1,73 @@
-<h2> Home Page </h2>
+
+<div class="">
+     |
+    <%= link_to "Meal Plans", meal_plans_path %> |
+    <%# link_to "View Shopping List", new_shopping_list_path(meal_plan: @selected_meal_plan) %>
+</div>
+<hr>
+<div class="col-md-6">
+  <% if current_user.meal_plans.present? %>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="pull-left col-md-3">
+            <% if @my_meal_plan.previous.present? %>
+              <% if @my_meal_plan.previous.user_id == current_user.id %>
+                <%= link_to "<<", pages_home_path(meal_plan: @my_meal_plan.previous ) %>
+              <% end %>
+            <% end %>
+          </div>
+          <div class="text-center col-md-6">
+            <h3>Meal Plan</h3>
+            <h5><%= @my_meal_plan.week_days.first.date %> - <%= @my_meal_plan.week_days.last.date %></h5>
+          </div>
+          <div class="text-right col-md-3">
+            <% if @my_meal_plan.next.present? %>
+              <% if @my_meal_plan.next.user_id == current_user.id %>
+                <%= link_to ">>", pages_home_path(meal_plan: @my_meal_plan.next ) %>
+              <% else %>
+                <%= link_to "New Plan", new_meal_plan_path, remote: true %>
+              <% end %>
+            <% else %>
+              <%= link_to "New Plan", new_meal_plan_path, remote: true %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+  <% else %>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-3"></div>
+          <div class="text-center col-md-6">
+            <h3>Meal Plan</h3>
+          </div>
+          <div class="text-right col-md-3">
+            <%= link_to "New Plan", new_meal_plan_path, remote: true %>
+          </div>
+        </div>
+      </div>
+  <% end %>
+    <div class="panel-body form_loader">
+      <%= render "meal_plans/my_meal_plan" if @my_meal_plan.present? %>
+    </div>
+  </div>
+</div>
+<div class="col-md-6">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <div class="row">
+        <div class="col-md-3"></div>
+        <div class="text-center col-md-6">
+          <h3>My Meals</h3>
+        </div>
+        <div class="col-md-3 text-right">
+          <%= link_to "Add Meal", meals_path %>
+        </div>
+      </div>
+    </div>
+    <div class="panel-body form_loader2">
+      <%= render 'user_meals/user_meal_list', locals: {meals: @my_meals}%>
+    </div>
+  </div>
+</div>

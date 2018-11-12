@@ -1,0 +1,6 @@
+<div class="container">
+  <% @week_day.meals.each do |meal| %>
+    <%= meal.name %><br>
+  <% end %>
+  <%= link_to "hide", week_day_hide_meals_path(@week_day), remote: true, method: :post %>
+</div>

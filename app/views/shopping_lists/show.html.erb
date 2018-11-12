@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Meal plan:</strong>
+  <%= @shopping_list.meal_plan %>
+</p>
+
+<div class="">
+  <% @shopping_list.list_items.each do |li| %>
+    <%= li.item %>---<%= li.amount %><br>
+  <% end %>
+</div>
+
+<%= link_to 'Edit', edit_shopping_list_path(@shopping_list) %> |
+<%= link_to 'Back', shopping_lists_path %>
